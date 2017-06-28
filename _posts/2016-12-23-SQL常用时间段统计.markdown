@@ -1,0 +1,47 @@
+---
+layout:     post
+title:      "SQL常用时间段统计"
+subtitle:   "SQL常用时间段统计"
+date:       2016-12-23 11:00:00
+author:     "蒋为"
+header-img: "img/11.jpg"
+catalog: true
+tags:
+    - MySQL
+---
+>记录
+
+
+## 数据库查询今天记录
+mysql：
+
+今天sql 
+
+ and TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 0 
+ 
+ 
+昨天sql 
+
+ and TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 1 
+ 
+ 
+ 
+查询当前这周的数据 
+
+SELECT name,submittime FROM enterprise WHERE YEARWEEK(date_format(submittime,'%Y-%m-%d')) = YEARWEEK(now()); 
+
+
+查询上周的数据 
+
+SELECT name,submittime FROM enterprise WHERE YEARWEEK(date_format(submittime,'%Y-%m-%d')) = YEARWEEK(now())-1; 
+
+
+查询当前月份的数据 
+
+select name,submittime from enterprise where date_format(submittime,'%Y-%m')=date_format(now(),'%Y-%m') 
+
+
+查询距离当前现在6个月的数据 
+
+select name,submittime from enterprise where submittime between date_sub(now(),interval 6 month) and now(); 
+
