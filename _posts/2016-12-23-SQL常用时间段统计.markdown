@@ -17,12 +17,12 @@ mysql：
 
 今天sql 
 
- and TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 0 
+select * from tables where  TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 0 
  
  
 昨天sql 
 
- and TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 1 
+select * from tables where  TO_DAYS( now() ) - TO_DAYS(subscribeTime) = 1 
  
  
  
