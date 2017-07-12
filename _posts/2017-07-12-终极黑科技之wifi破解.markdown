@@ -7,7 +7,6 @@ author:     "蒋为"
 header-img: "img/20.jpg"
 catalog: true
 tags:
-    - Windows
 	- Linux
 ---
 >记录
