@@ -96,7 +96,7 @@ U盘：运行 CDLinux，保存抓包文件，容量在512M以上；
 
 5. 抓到握手包时，会提示是否搜索密码，选择 NO，一会用别的工具跑包；
 
-<img src="/img/articleImg/wifi7.png">
+<img src="/img/articleImg/wifi7.jpg">
 
 
 
