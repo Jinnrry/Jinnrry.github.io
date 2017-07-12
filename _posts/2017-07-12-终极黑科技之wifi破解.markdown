@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "终极黑科技之wifi破解"
-subtitle:   "Windows"
+subtitle:   "黑科技"
 date:       2017-07-12 10:00:00
 author:     "蒋为"
 header-img: "img/20.jpg"
