@@ -262,40 +262,9 @@
 <!--  个人统计 -->
 <script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script>
-    var userAgent = window.navigator.userAgent,
-        rMsie = /(msie\s|trident.*rv:)([\w.]+)/,
-        rFirefox = /(firefox)\/([\w.]+)/,
-        rOpera = /(opera).+version\/([\w.]+)/,
-        rChrome = /(chrome)\/([\w.]+)/,
-        rSafari = /version\/([\w.]+).*(safari)/;
-    function uaMatch(ua) {
-        var match = rMsie.exec(ua);
-        if (match != null) {
-            return {browser: "IE", version: match[2] || "0"};
-        }
-        var match = rFirefox.exec(ua);
-        if (match != null) {
-            return {browser: match[1] || "", version: match[2] || "0"};
-        }
-        var match = rOpera.exec(ua);
-        if (match != null) {
-            return {browser: match[1] || "", version: match[2] || "0"};
-        }
-        var match = rChrome.exec(ua);
-        if (match != null) {
-            return {browser: match[1] || "", version: match[2] || "0"};
-        }
-        var match = rSafari.exec(ua);
-        if (match != null) {
-            return {browser: match[2] || "", version: match[1] || "0"};
-        }
-        if (match != null) {
-            return {browser: "", version: "0"};
-        }
-    }
+    var sUserAgent = navigator.userAgent.toLowerCase();
 
-    obj=uaMatch(userAgent.toLowerCase())
-    $.post("http://118.89.165.120/api/",{ip:returnCitySN["cip"],add:returnCitySN["cname"],tag:obj.browser+obj.version,page:window.location.href});
+    $.post("http://118.89.165.120/api/",{ip:returnCitySN["cip"],add:returnCitySN["cname"],tag:sUserAgent,page:window.location.href});
 
 
 
