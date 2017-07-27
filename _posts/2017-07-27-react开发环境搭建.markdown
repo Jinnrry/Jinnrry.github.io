@@ -37,7 +37,7 @@ npm install axios classnames moment react react-datepicker react-dom react-modal
 
 {% endhighlight %}
 
-##5.新建配置文件
+## 5.新建配置文件
 
 在项目根目录创建webpack配置文件 webpack.config.js
 
