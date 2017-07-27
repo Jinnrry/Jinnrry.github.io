@@ -1,0 +1,143 @@
+---
+layout:     post
+title:      "react开发环境搭建"
+subtitle:   "react"
+date:       2017-07-12 10:00:00
+author:     "蒋为"
+header-img: "img/17.jpg"
+catalog: true
+tags:
+    - React
+---
+>记录
+
+## 1.安装nodeJs
+
+主要是为了使用npm工具创建项目
+
+## 2.创建项目
+
+在项目文件夹中进入命令行，敲入npm init
+
+## 3.安装开发需要的相关包
+
+{% highlight  perl  %}
+
+npm install babel-core babel-loader babel-plugin-transform-class-properties babel-plugin-transform-object-rest-spread babel-preset-es2015 babel-preset-react webpack webpack-dev-server --save-dev
+
+
+{% endhighlight %}
+
+## 4.安装项目需要的包
+
+{% highlight  perl  %}
+
+npm install axios classnames moment react react-datepicker react-dom react-modal react-redux react-router redux validate.js --save
+
+
+{% endhighlight %}
+
+##5.新建配置文件
+
+在项目根目录创建webpack配置文件 webpack.config.js
+
+{% highlight  javascript  %}
+
+var path = require('path');
+
+module.exports = {
+    entry: "./src/index.js",   //项目主js文件
+    // Here the application starts executing
+    // and webpack starts bundling
+    output: {
+        // options related to how webpack emits results
+        path: path.resolve(__dirname, "public/js"),   //react编译代码文件生成位置
+        // the target directory for all output files
+        // must be an absolute path (use the Node.js path module)
+        filename: "bundle.js",   //编译代码文件名称
+        // the filename template for entry chunks
+        publicPath: "/js/"
+        //The publicPath specifies the public URL address of the output files when referenced in a browser.
+    },
+    module: {
+        // configuration regarding modules
+        loaders: [
+            {
+                test: /\.(js|jsx)$/,
+                include: [path.resolve(__dirname, "src")],
+                exclude: [path.resolve(__dirname, "node_modules")],
+                loader: 'babel-loader'
+            }
+            // these are matching conditions, each accepting a regular expression or string
+            // test and include have the same behavior, both must be matched
+            // exclude must not be matched (takes preferrence over test and include)
+            // Best practices:
+            // - Use RegExp only in test and for filename matching
+            // - Use arrays of absolute paths in include and exclude
+            // - Try to avoid exclude and prefer include
+        ]
+    }
+
+}
+
+{% endhighlight %}
+
+
+创建babelrc配置文件.babelrc
+
+{% highlight  javascript  %}
+
+
+{
+  "presets":[
+    "es2015",
+    "react"
+  ],
+  "plugins": ["transform-class-properties", "transform-object-rest-spread"]
+}
+
+{% endhighlight %}
+
+## 6.测试环境
+
+新建代码文件  src/index.js
+
+{% highlight  javascript  %}
+
+
+import React from "react";
+import ReactDom from "react-dom";
+
+ReactDom.render(<h1>Hello World!</h1>, document.getElementById("root"));
+
+{% endhighlight %}
+
+新建html文件 public/index.html
+
+{% highlight  html  %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="js/bundle.js"></script>
+</body>
+</html>
+
+{% endhighlight %}
+
+
+然后在命令行输入
+
+{% highlight  perl  %}
+
+.\node_modules\.bin\webpack-dev-server --content-base public --port 3000
+
+{% endhighlight %}
+
+打开浏览器 http://localhost:3000 如果出现hello world则成功
