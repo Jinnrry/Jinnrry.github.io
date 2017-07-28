@@ -2,7 +2,7 @@
 layout:     post
 title:      "react开发环境搭建"
 subtitle:   "react"
-date:       2017-07-12 10:00:00
+date:       2017-07-27 10:00:00
 author:     "蒋为"
 header-img: "img/17.jpg"
 catalog: true
