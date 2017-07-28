@@ -37,7 +37,8 @@ class Clock extends React.Component {
         );
     }
 
-	//申明一个tick函数，设置时间
+	//申明一个tick函数，设置时间，注意，这里是使用匿名函数赋值给tick的，这样申明不会造成this错误，但是这样写必须给babel添加transform-class-properties扩展
+	//另外也推荐React类中的成员函数都通过这种方式申明
     tick = () => {
         this.setState({date: new Date()});
     }
