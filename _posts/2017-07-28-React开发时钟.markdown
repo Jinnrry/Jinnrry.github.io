@@ -77,3 +77,6 @@ constructor()   //组件的构造函数
 componentDidMount()    //组件显示时调用
 
 componentWillUnmount()   //组件消失时调用
+
+另外，时间变量是放在组件中的state中的，state是组件的一个变量，这个变量改变的时候组件将会刷新，
+注意，只有state变量更新的时候组件才会更新，其他组件变量改变组件都不会更新。另外，注意state是一个对象，而且更新的时候必须使用this.setState()函数更新
