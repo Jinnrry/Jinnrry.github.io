@@ -24,13 +24,45 @@ Clock.js文件
 
 {% highlight  javascript  %}
 
-import React from  "react"
-export default class Clock extends React.Component{
-    render(){
-        return <h1>Clock! </h1>;
-    }
-}
+import React from "react";
 
+
+export default class Clock extends React.Component {
+    constructor() {
+        super();
+        this.state = {date: new Date()}
+    }
+
+    render() {
+        return (
+            <div>
+                <h1>当前时间： </h1>
+                <h2>{this.state.date.toLocaleTimeString()}</h2>
+
+            </div>
+
+        );
+    }
+
+    //申明一个tick函数，设置时间，注意，这里是使用匿名函数赋值给tick的，这样申明不会造成this错误，但是这样写必须给babel添加transform-class-properties扩展
+    //另外也推荐React类中的成员函数都通过这种方式申明
+    tick = () => {
+        this.setState({date: new Date()});
+    }
+
+    //组件显示时调用
+    componentDidMount() {
+        this.interval = setInterval(this.tick, 1000);  //申明定时器
+
+    }
+
+
+    //组件消失时调用
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    }
+
+}
 {%  endhighlight  %}
 
 Header.js文件
@@ -228,6 +260,50 @@ export default class Welcome extends React.Component{
 }
 
 {%  endhighlight  %}
+
+
+Form.js文件
+
+{% highlight  javascript  %}
+
+/**
+ * Created by jiangwei on 2017/7/29.
+ */
+import React from "react"
+
+
+export default class Form extends React.Component{
+
+    constructor(){
+        super();
+        this.state={text:"",pick:"1"};
+
+    }
+
+    Click=()=>{
+        console.log(this.state);
+    }
+
+
+    render(){
+        return(
+          <form>
+              <table className="table table-bordered">
+                  <tbody>
+                  {/*双向绑定输入框中的值*/}
+                  <tr><td>输入框：</td><td><input type="text" value={this.state.text} onChange={(e)=>{this.setState({text:e.target.value});}}  className="input-sm" /></td></tr>
+                  <tr><td> 单选框：</td><td><select  onChange={(e)=>{this.setState({pick:e.target.value});}} className="input-sm" value={this.state.pick}><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select><br/></td></tr>
+                  <tr><td>确定键：</td><td><button onClick={this.Click} className="btn btn-default">click!</button></td></tr>
+                  </tbody>
+              </table>
+          </form>
+        );
+    }
+
+}
+
+{%  endhighlight  %}
+
 
 index.js文件
 
