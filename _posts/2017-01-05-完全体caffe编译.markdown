@@ -58,9 +58,11 @@ Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 367.48?
 配置环境变量：
 
 打开~/.bashrc文件： sudo gedit ~/.bashrc 
+
 将以下内容写入到~/.bashrc尾部：
 
-export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}} <br>
+export PATH=/usr/local/cuda-8.0/bin${PATH:+:${PATH}} 
+
 export LD_LIBRARY_PATH=/usr/local/cuda-8.0/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
 
 如果是默认安装路径直接复制就好，如果不是默认路径安装需要修改为对应路径
@@ -78,7 +80,11 @@ sudo ./deviceQuery
 
 ## 安装cuDNN
 cuDNN是GPU加速计算深层神经网络的库。
-首先去官网 https://developer.nvidia.com/rdp/cudnn-download 下载cuDNN，需要注册一个账号才能下载。注意版本，我选择的是cudnn-8.0-linux-x64-v5.1.tgz 
+首先去官网 
+
+https://developer.nvidia.com/rdp/cudnn-download 
+
+下载cuDNN，需要注册一个账号才能下载。注意版本，我选择的是cudnn-8.0-linux-x64-v5.1.tgz 
 
 
 下载cuDNN之后进行解压：
@@ -88,6 +94,7 @@ sudo tar -zxvf ./cudnn-8.0-linux-x64-v5.1.tgz
 进入cuDNN5.1解压之后的include目录，在命令行进行如下操作：
 
 cd cuda/include
+
 sudo cp cudnn.h /usr/local/cuda/include  #复制头文件
 
 再将进入lib64目录下的动态文件进行复制和链接：
@@ -128,7 +135,24 @@ sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libp
 <br>
 
 配置：
-cmake .  
+
+mkdir build
+
+cd build
+
+cmake ..
+
+如果出错
+
+cd ../
+
+rm -rf CMakeCace.txt CMakeFiles
+
+然后再
+
+cd build
+
+cmake ..
 
 编译：
 
