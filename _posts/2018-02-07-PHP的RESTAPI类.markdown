@@ -22,7 +22,7 @@ class RestApi{
 
         if ( !isset($this->aPostArg['action']))   //检查action是否存在
         {
-            return $this->buildJson(false,'action参数不存在',[]);
+            exit( $this->buildJson(false,'action参数不存在',[]) );
         }
     }
 
