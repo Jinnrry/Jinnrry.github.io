@@ -106,3 +106,4 @@ $api=new testapi();
 $apt->run();
 {% endhighlight %}
 
+此时对应的接口地址为 http://xxxxx/testapi.php
