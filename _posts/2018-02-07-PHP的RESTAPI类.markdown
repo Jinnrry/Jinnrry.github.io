@@ -13,16 +13,32 @@ tags:
 
 一个超级轻量级的PHP REST API框架的实现，只需要在项目中引入这个类
 {% highlight php %}
-class RestApi
+<?php
+class Ko_App_RestApi
 {
-    protected $aPostArg;    //存储POST过来的数据，大致相当于$_POST
-    function __construct()
+    protected $aPostArg=null;    //存储提交过来的数据
+    function __construct($method)
     {
-        $this->aPostArg=$_POST;    //获取POST数组
-
-        if ( !isset($this->aPostArg['action']))   //检查action是否存在
+        if($_SERVER['REQUEST_METHOD'] == $method )
         {
-            exit($this->buildJson(false,'action参数不存在',[]));
+            switch ($method) {
+                case 'POST':
+                    $this->aPostArg = $_POST;
+                    if ( !isset($this->aPostArg['action'])  || $this->aPostArg['action']==''   )   //检查action是否存在
+                    {
+                        exit($this->buildJson(false,'action参数不存在',[]));
+                    }
+                    break;
+                case 'GET':
+                    $this->aPostArg = $_GET;
+                    if ( !isset($this->aPostArg['action'])  || $this->aPostArg['action']==''   )   //检查action是否存在
+                    {
+                        exit($this->buildJson(false,'action参数不存在',[]));
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -48,16 +64,20 @@ class RestApi
 
     function run()
     {
-        $ParameterArgs=array();                   //所调用函数的参数名称
+        if ( !isset($this->aPostArg['action']))   //检查action是否存在
+        {
+            return;
+        }
         $functionName=$this->aPostArg['action'];  //获取action对应的函数名
         $childClassName=get_class($this);         //获取子类的类名
         $re=$this->getFucntionParameterName( $childClassName ,$functionName  );    //获取对应函数的参数名称
         $functionParameter=array();
         foreach ($re as $index=>$ReflectionParameterObject)     //遍历获得函数参数
         {
-            $ParameterArgs[$ReflectionParameterObject->name]=$this->aPostArg[$ReflectionParameterObject->name]   ;
-            $functionParameter[$index]=$this->aPostArg[$ReflectionParameterObject->name];
-
+            if(isset($this->aPostArg[$ReflectionParameterObject->name]))
+                $functionParameter[$index]=$this->aPostArg[$ReflectionParameterObject->name];
+            else
+                $functionParameter[$index]=null;
         }
 
        echo $this->$functionName(...$functionParameter);
@@ -79,7 +99,6 @@ class RestApi
     }
 
 }
-
 {% endhighlight %}
 
 
@@ -89,21 +108,55 @@ testapi.php
 
 {% highlight php %}
 
-class testapi extends RestApi{
+<?php
 
-    //会自动将POST中的name和id字段注入到 $name $id变量中
-    //当POST中的action值为  getName的时候会调用这个方法
-    function getName($name,$id)    
+require_once "RestApi.php";
+
+class postapitest extends Ko_App_RestApi{
+
+    //会自动将POST中的name和id和news 字段注入到 $name $id  $news变量中
+    //当POST中的action值为  ttc的时候会调用这个方法
+    function  ttc($name,$id,$news)
     {
-        return buildJson(true,'success',[]);
+        return $this->buildJson(true,'POST接口',["name"=>$name,"id"=>$id,"n"=>$news]);
     }
 
 
+    //会自动将POST中的name和id字段注入到 $name $id 变量中
+    //当POST中的action值为  tt的时候会调用这个方法
+    function  tt($name,$id)
+    {
+        return $this->buildJson(true,'POST接口',["name"=>$name,"id"=>$id]);
+    }
+
 }
 
+class getapitest extends Ko_App_RestApi{
+    //会自动将GET中的name和id和news 字段注入到 $name $id  $news变量中
+    //当GET中的action值为  ttc的时候会调用这个方法
+    function  ttc($name,$id,$news)
+    {
+        return $this->buildJson(true,'GET接口',["name"=>$name,"id"=>$id,"n"=>$news]);
+    }
 
-$api=new testapi();
-$apt->run();
+    
+    //同上
+    function  tt($name,$id)
+    {
+        return $this->buildJson(true,'GET接口',["name"=>$name,"id"=>$id]);
+    }
+
+}
+
+$api=new postapitest('POST');
+$api->run();
+
+$getapi=new getapitest('GET');
+$getapi->run();
+
+
+
+
 {% endhighlight %}
 
 此时对应的接口地址为 http://xxxxx/testapi.php
