@@ -265,8 +265,16 @@
 <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script>
     var sUserAgent = navigator.userAgent.toLowerCase();
-
-    $.post("http://45.78.45.5:8080/api/",{ip:returnCitySN["cip"],add:returnCitySN["cname"],tag:sUserAgent,page:window.location.href});
+    var ref = '';
+ 　　if (document.referrer.length > 0) {  
+ 　　 　　ref = document.referrer;
+　　 }
+　　try {  
+      if (ref.length == 0 && opener.location.href.length > 0) {
+ 　　　　ref = opener.location.href;
+ 　　  }  
+ } catch (e) {} 
+    $.post("http://45.78.45.5:8080/api/",{ip:returnCitySN["cip"],add:returnCitySN["cname"],tag:sUserAgent,page:window.location.href,ref:ref});
 
 
 
