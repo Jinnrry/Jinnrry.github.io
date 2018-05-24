@@ -1,0 +1,117 @@
+---
+layout:     post
+title:      "从面向百度编程到面向谷歌编程"
+subtitle:   ""
+date:       2018-05-24 13:00:00
+author:     ""
+header-img: "img/29.jpg"
+catalog: true
+tags:
+    - 计算机网络
+---
+>转载于网络
+
+面向谷歌编程---Ubuntu Shadowsocks服务器端安装及优化
+
+### 前言
+
+本教程旨在提供简明的Ubuntu 16.04下安装服务器端Shadowsocks。不同于Ubuntu 16.04之前的教程，本文抛弃initd，转而使用Ubuntu 16.04支持的Systemd管理Shadowsocks的启动与停止，显得更为便捷。优化部分包括BBR、TCP Fast Open以及吞吐量优化。
+
+本教程仅适用于Ubuntu 16.04及之后的版本，基于Python 3，支持IPv6。
+
+### 安装pip
+
+···Bash
+sudo apt install python3 python3-pip
+···
+
+### 安装Shadowsocks
+
+因Shadowsocks作者不再维护pip中的Shadowsocks（定格在了2.8.2），我们使用下面的命令来安装最新版的Shadowsocks：
+
+```Bash
+pip3 install https://github.com/shadowsocks/shadowsocks/archive/master.zip
+```
+
+查看ss版本
+
+···Bash
+sudo ssserver --version
+···
+
+目前会显示“Shadowsocks 3.0.0”。其实应该你也会显示3.0.0，因为由于某些原因（具体你可以去查查什么原因），作者已经不再维护了，所以SS永远停留在了这个版本
+
+### 创建配置文件
+
+创建Shadowsocks配置文件所在文件夹：
+
+```Bash
+sudo mkdir /etc/shadowsocks
+```
+然后创建配置文件：
+
+```Bash
+sudo nano /etc/shadowsocks/config.json
+```
+复制粘贴如下内容（注意修改密码“password”）：
+```
+JSON
+{
+    "server":"::",
+    "server_port":443,
+    "local_address": "127.0.0.1",
+    "local_port":1080,
+    "password":"password",
+    "timeout":300,
+    "method":"aes-256-cfb",
+    "fast_open": false
+}
+```
+然后按Ctrl + O保存文件，Ctrl + X退出。
+
+然后来测试下Shadowsocks能不能正常工作了：
+
+```Bash
+ssserver -c /etc/shadowsocks/config.json
+```
+在Shadowsocks客户端添加服务器，如果你使用的是我提供的那个配置文件的话，地址填写你的IPv4地址或IPv6地址，端口号为443，加密方法为aes-256-cfb，密码为你设置的密码。然后设置客户端使用全局模式，浏览器登录Google试试应该能直接打开了。
+
+这时浏览器登录http://ip138.com/就会显示Shadowsocks服务器的IP啦！
+
+测试完毕，按Ctrl + C关闭Shadowsocks。
+
+### 配置Systemd管理Shadowsocks
+
+现在虽然你能用了，但是一旦你关闭SSH连接或者重启服务器就不能用了，所以需要配置成服务并且开机自动运行
+
+新建Shadowsocks管理文件
+
+```Bash
+sudo nano /etc/systemd/system/shadowsocks-server.service
+```
+复制粘贴：
+```
+[Unit]
+Description=Shadowsocks Server
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/ssserver -c /etc/shadowsocks/config.json
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target
+```
+Ctrl + O保存文件，Ctrl + X退出。
+
+启动Shadowsocks：
+
+```Bash
+sudo systemctl start shadowsocks-server
+```
+设置开机启动Shadowsocks：
+
+```Bash
+sudo systemctl enable shadowsocks-server
+```
+至此，Shadowsock服务器端的基本配置已经全部完成了！
