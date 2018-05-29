@@ -55,7 +55,6 @@ sudo nano /etc/shadowsocks/config.json
 ```
 复制粘贴如下内容（注意修改密码“password”）：
 ```
-JSON
 {
     "server":"::",
     "server_port":443,
