@@ -18,3 +18,7 @@ tags:
 ### google套件卡刷包
 
 [https://opengapps.org/](https://opengapps.org/)
+
+### lineageos (原CM)
+
+[https://lineageos.org/](https://lineageos.org/)
