@@ -7,7 +7,7 @@ author:     "蒋为"
 header-img: "img/1.jpg"
 catalog: true
 tags:
-    - Java
+    - java
 ---
 >记录
 
