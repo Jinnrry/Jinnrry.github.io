@@ -19,9 +19,18 @@ header-img: "img/tag-bg.jpg"
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-
+    <script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.min.js"></script>
 </head>
 
+<style>
+    .showhtml{
+        width: 100%;
+        height: 500px;
+    }
+    .modal-dialog{
+        width: 780px;
+    }
+</style>
 
 <div class="container">
     <form>
@@ -48,9 +57,35 @@ header-img: "img/tag-bg.jpg"
         </div>
 
 
-        <button id="go" type="button" class="btn btn-submit btn-primary ">GoGoGo</button>
+        <button id="go" type="button" class="btn btn-submit btn-primary "  data-toggle="modal" data-target="#show"  >GoGoGo</button>
     </form>
+
+
 </div>
+
+
+
+
+
+<div id="show" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Modal title</h4>
+        </div>
+        <div class="modal-body">
+          <textarea  class="showhtml" >
+
+          </textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button id='save' type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 
 
@@ -79,7 +114,7 @@ header-img: "img/tag-bg.jpg"
         content+= "---\n" +
             ">记录";
         console.log(content);
-
+        $(".showhtml").val(content);
     })
 
     //获取当前时间，格式YYYY-MM-DD
@@ -101,7 +136,12 @@ header-img: "img/tag-bg.jpg"
 
 
 
-
+    $("#save").click(function(){
+        var content =$(".showhtml").val();
+        var file = new File([content], "template.markdown", { type: "text/plain;charset=utf-8" });
+        saveAs(file);
+        
+    });
 
 
 
