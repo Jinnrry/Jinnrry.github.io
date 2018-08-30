@@ -262,7 +262,6 @@
 
 
 <!--  个人统计 -->
-<script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
 <script>
     var sUserAgent = navigator.userAgent.toLowerCase();
     var ref = '';
@@ -274,7 +273,12 @@
  　　　　ref = opener.location.href;
  　　  }  
  } catch (e) {} 
-    $.post("http://xjiangwei.cn:8080/api/",{ip:returnCitySN["cip"],add:returnCitySN["cname"],tag:sUserAgent,page:window.location.href,ref:ref});
+    $.post("http://89.208.252.209:8088/api/",
+	{
+		ua:sUserAgent,
+		url:window.location.href,
+		referer:ref
+	});
 
 
 
