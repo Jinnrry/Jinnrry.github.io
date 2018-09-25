@@ -22,3 +22,7 @@ tags:
 ### lineageos (原CM)
 
 [https://lineageos.org/](https://lineageos.org/)
+
+### python第三方包下载
+
+[https://www.lfd.uci.edu/~gohlke/pythonlibs/](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
