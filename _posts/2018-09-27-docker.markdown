@@ -1,0 +1,132 @@
+﻿---
+layout:     post
+title:      "运维神器---Docker"
+subtitle:   " Docker从入门到部署"
+date:       2018-09-27 12:00:00
+author:     "蒋为"
+header-img: "img/27.jpg"
+catalog: true
+tags:
+    - Docker
+---
+## 运维神器---Docker
+### Docker 简介
+一个应用程序容器，或许你可以理解成一个轻量级虚拟机。它作用是能够帮助你完成很多重复的项目部署工作，比如一个项目需要在服务器集群中部署，集群大约由100台服务器构成，这时如果人工去把项目部署到每台机器上肯定是不现实的，另外如果项目有更新，需要更新整个集群工作量也是巨大的。而如果自己编写自动化脚本部署项目，每台机器的硬件，网络，操作系统版本，等等细微的差别如果编写脚本的时候没有考虑周全，很有可能导致整个集群部署出问题。因此，这个时候如果有个工具能够让你在一台机器上部署好，能够直接同步到其他机器，并且自动处理好服务器的差异问题，那得是多么妙的一件事。很庆幸，Docker就能完成这个工作，而且他的甚至能够帮你在Windows主机上部署好Linux项目，可见他的兼用做得多好！
+
+### 安装
+在不同的操作系统中安装是不同的，但是都非常简单。下面记录Ubuntu16.04的安装过程：
+```
+# 安装依赖包
+sudo apt-get install   apt-transport-https ca-certificates  curl  software-properties-common
+#添加官方密钥
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+#添加仓库
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu  $(lsb_release -cs)  stable"
+
+sudo apt-get update
+#安装
+sudo apt-get install docker-ce
+```
+
+
+### 使用
+#### 背景介绍:
+你现在浏览的这个博客网站源文件是放在Github上的，使用了Github的Page搭建的这个博客。但是由于曾经的一些事件（你可以Google看看），国内的搜索引擎是搜索不到Github上面的内容的。因此，为了让国内搜索引擎搜索到我的博客，我用了一台单独的服务器对原博客做了反向代理，反向代理服务器使用Python3编写，已经放到我的Github上，[地址](https://github.com/jiangwei1995910/PythonReverseProxyService/tree/master/fxdl)。但是由于资金有限，我的服务器并不稳定，所以经常要换，经常需要从新部署，以及服务器需要部署一套PHP的运行环境用作他用，所以我将这整个内容打包成了一个Docker镜像，并传到Docker Hub,每次需要从新部署的时候只需要从Docker Hub上Dowload镜像，然后运行即可，整个部署过程不超过3分钟。哈哈！（PS：如果从头部署大概要一天的）
+
+#### 项目架构：
+反向代理服务器使用python3+django开发，PHP环境决定使用nginx+php-fpm运行，最后决定在docker中安装Ubuntu16.04然后在Docker里部署Apache2+ mod_wsgi 运行反向代理项目，使用Nginx+php7.0-fpm运行PHP项目。
+
+#### 部署过程
+
+##### 一、在docker中安装Ubuntu镜像
+ubuntu镜像已经有现成的，直接使用即可
+```
+#下载镜像文件
+docker pull ubuntu:16.04
+#查看已下载镜像的IMAGE ID
+docker images
+#使用镜像创建Docker实例,注意替换image id
+docker run -i -t  -p 80:80  -p 8088:8088   IMAGE ID  /bin/bash 
+```
+其中，-p 8088:8088 表示将docker实例的8088端口映射到本机的8088端口，80同理。我这里8088是php项目端口，80是反向代理端口
+
+执行后你就已经进入到了你创建的docker实例当中。
+
+另外，如果你需要退出docker实例，按ctrl+d，或者输入exit即可。
+
+退出后可以使用
+```
+docker ps -a
+```
+查看已有实例，使用
+```
+#注意：CONTAINER ID替换为docker ps -a命令查询到的相应ID
+docker start CONTAINER ID 
+```
+重新启动docker实例，使用
+```
+#注意：CONTAINER ID替换为docker ps -a命令查询到的相应ID
+docker attach  CONTAINER ID 
+```
+进入docker中
+##### 二、在docker实例中部署环境
+
+在Docker实例中部署项目和直接在操作系统中部署项目没有区别。But,部署完成后Mysql apache nginx ...这些服务并不会随docker实例启动而自动启动，而需要自己写sh脚本启动，在启动docker时运行写好的sh脚本。
+附上我这里使用的脚本：/home/start.sh
+```
+#!/bin/sh
+/etc/init.d/mysql start
+/etc/init.d/apache2 start
+/usr/sbin/php-fpm7.0
+/etc/init.d/nginx start
+/bin/bash
+```
+赋予执行权限，sudo chmod 777 /home/start.sh
+
+#### 三、保存docker实例的修改
+首先按ctrl+d退出Docker实例，
+提交docker更改
+```
+#查看docker实例的 CONTAINER ID 
+docker ps -a 
+#提交修改，注意替换CONTAINER ID 
+docker commit CONTAINER ID 
+```
+
+##### 四、将docker镜像上传到docker hub
+
+docker hub是一个免费的docker镜像仓库，就行github一样，要提交镜像，需要先到[官网](https://hub.docker.com/)注册账号。
+
+```
+#登录账号
+docker login
+
+#输入你的账号，密码
+
+#上传,账号名是你注册时的账号id，镜像名是你要给这个镜像取的名字
+docker push CONTAINER ID  账号名/镜像名
+
+```
+##### 五、使用自己上传的docker镜像
+
+```
+#下载镜像
+docker pull 账号名/镜像名
+#查看已有镜像IMAGE ID
+docker images
+#使用镜像创建实例,"/home/start.sh"表示docker启动完既执行的脚本
+docker run -i -t  -p 80:80  -p 8088:8088   IMAGE ID  /home/start.sh
+```
+自此，以后再需要部署项目的时候只需要安装好docker再执行这3条命令即可部署好一台服务器
+
+
+
+
+
+
+
+
+
+
+
+
