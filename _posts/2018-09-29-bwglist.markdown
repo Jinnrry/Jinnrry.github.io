@@ -1,0 +1,19 @@
+﻿---
+layout:     post
+title:      "搬瓦工服务器列表"
+subtitle:   " 搬瓦工"
+date:       2018-09-29 12:00:00
+author:     "蒋为"
+header-img: "img/19.jpg"
+catalog: true
+tags:
+    - 收藏
+---
+## 搬瓦工服务器列表
+想看看搬瓦工有哪些配置的服务器卖？卧槽，找了几个小时，终于找到了，赶紧拿起小本本记下来。一个公司能把自家在卖的商品藏这么深我也是醉了。
+
+贴上地址:
+
+[中国免翻墙地址](https://www.bwh1.net/cart.php)
+
+[官网地址（需要梯子）](https://bandwagonhost.com/cart.php)
