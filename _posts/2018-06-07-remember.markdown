@@ -26,3 +26,8 @@ tags:
 ### python第三方包下载
 
 [https://www.lfd.uci.edu/~gohlke/pythonlibs/](https://www.lfd.uci.edu/~gohlke/pythonlibs/)
+
+
+### Xposed框架XDA地址
+
+[https://dl-xda.xposed.info/framework/](https://dl-xda.xposed.info/framework/)
