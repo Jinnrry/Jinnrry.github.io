@@ -79,7 +79,7 @@ WantedBy=multi-user.target
 }
 ```
 
-port_password处可以添加多个端口，不同的密码，达到多用户使用的目的
+port_password处可以添加多个端口，不同的密码，达到多用户使用的目的，将配置文件保存到/usr/local/shadowsocksr/user-config.json
 
 
 
