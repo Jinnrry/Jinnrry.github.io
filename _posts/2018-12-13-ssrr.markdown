@@ -88,3 +88,8 @@ port_password处可以添加多个端口，不同的密码，达到多用户使�
 ```
 systemctl enable shadowsocksr.service && systemctl start shadowsocksr.service
 ```
+
+
+> 后续优化
+
+开启BBR、开启fast tcp、优惠吞吐量等参加我SS博客的优化部分。[链接](https://www.xjiangwei.cn/2018/05/24/ShadowSock/)
