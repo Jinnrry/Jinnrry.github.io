@@ -1,0 +1,63 @@
+﻿---
+layout:     post
+title:      "SSRR部署记录"
+subtitle:   " SSRR"
+date:       2018-12-13 12:00:00
+author:     "蒋为"
+header-img: "img/28.jpg"
+catalog: true
+tags:
+    - 计算机网络
+---
+继SS作者喝茶后SSR作者也停更了。后续SSRR是SSR的继承者。引用SSRR作者的一句话
+
+*
+破娃前车之鉴。
+所以未来SSRR会不断加高使用的门槛，直到所有价值观有问题的不能明辨是非的不适合见识更广阔世界的弱者都能够被过滤掉为止。就好像那些看似白痴的骗术一样，过滤掉非目标受众。
+*
+
+> 正文
+
+```
+git clone https://github.com/shadowsocksrr/shadowsocksr
+cd shadowsocksr/shadowsocks/
+//快速运行
+python server.py -p 443 -k password -m aes-128-cfb -O auth_aes128_md5 -o tls1.2_ticket_auth_compatible
+//启动 停止
+python server.py -d stop/restart
+
+//日志
+tail -f /var/log/shadowsocksr.log
+
+```
+根目录是多用户代码，个人使用的话直接使用shadowsocksr/shadowsocks/中的就好。
+
+
+开机自启脚本
+```
+[Unit]
+Description=ShadowsocksR server
+After=network.target
+Wants=network.target
+[Service]
+Type=forking
+PIDFile=/var/run/shadowsocksr.pid
+ExecStart=/usr/bin/python /usr/local/shadowsocksr/shadowsocks/server.py --pid-file /var/run/shadowsocksr.pid -c /usr/local/shadowsocksr/user-config.json -d start
+ExecStop=/usr/bin/python /usr/local/shadowsocksr/shadowsocks/server.py --pid-file /var/run/shadowsocksr.pid -c /usr/local/shadowsocksr/user-config.json -d stop
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=always
+
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+
+将上述脚本保存为/etc/systemd/system/shadowsocksr.service
+执行
+
+```
+systemctl enable shadowsocksr.service && systemctl start shadowsocksr.service
+```
