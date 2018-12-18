@@ -1,0 +1,80 @@
+﻿---
+layout:     post
+title:      "一份PHP面试题"
+subtitle:   " PHP"
+date:       2018-12-18 12:00:00
+author:     "蒋为"
+header-img: "img/2.jpg"
+catalog: true
+tags:
+    - PHP
+---
+>记录
+
+进程线程了解多少
+
+php for while foreach迭代数组时候，哪个效率最高
+
+协程知道不
+
+tcp udp区别是啥
+
+php的对象克隆知道多少
+
+tcp 三次握手四次挥手
+
+tcp状态转移
+
+redis为啥单线程
+
+redis集群了解多少
+
+数据库  存储引擎
+
+说一下TCP协议为什么收到的数据是完整且有序的
+
+fpm进程模型 得搞一波
+
+画下innodb主键索引的数据结构吧
+
+说下优先队列吧，如果你来做的话，你会用哪种数据结构？
+
+innodb存储为什么使用b+tree
+
+epoll是怎么回事
+
+epoll有两种模式，你知道吗？
+
+你知道啊，那你在php代码里是如何操作两种模式的
+
+那你在写非阻塞IO的时候，php代码关键点是怎么实现的
+
+问 myisam 与innodb在实现 索引上有什么不同
+
+看workerman源码
+
+那你知道swoole的进程模型
+
+一个聚簇索引，一个不是聚簇索引
+
+那你知道ARP协议和RARP协议吗
+
+给我说一下redis的set是怎么实现的
+
+画画redis的zset是怎么实现的
+
+想起一个 nginx于fpm通信有几种方式
+
+tcp socket 和 unix socket
+
+再问就是两种区别是什么
+
+本地套接字与套接字 一个只能用在本地。
+
+继续问就是unix socket是什么东西
+
+如果还要问就是unix socket是如何实现多进程之间通信的
+
+非阻塞io
+
+linux高性能服务器编程
