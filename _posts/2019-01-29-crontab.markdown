@@ -1,0 +1,70 @@
+﻿---
+layout:     post
+title:      "crontab无日志问题"
+subtitle:   " crontab"
+date:       2019-01-29 12:00:00
+author:     "蒋为"
+header-img: "img/33.jpg"
+catalog: true
+tags:
+    - Linux
+---
+> crontab无日志问题
+
+在Ubuntu中，crontab默认是不记录日志的。很多时候遇到crontab不执行，或者执行出错根本找不到原因。网上各种博客都说看日志。卧槽，哪有日志呀，根本没有好不。
+
+#### 打开crontab日志
+
+```Bash
+sudo vim /etc/rsyslog.d/50-default.conf
+#将cron前面的注释符去掉
+cron.*              /var/log/cron.log  
+
+#重启rsyslog
+
+sudo  service rsyslog  restart
+
+#查看crontab日志
+
+less  /var/log/cron.log 
+
+```
+
+But !开启这个日志后，如果是你脚本出错了，你依然看不到错误信息。这个日志记录的只是任务的启动情况，类容类似这样
+```
+Jan 29 14:19:22 instance-1 crontab[7025]: (jiangwei1995910) LIST (jiangwei1995910)
+Jan 29 14:25:01 instance-1 CRON[7115]: (root) CMD (test -x /usr/sbin/anacron || ( cd / && run-parts --report /etc/cron.daily ))
+Jan 29 14:30:20 instance-1 crontab[7362]: (jiangwei1995910) LIST (jiangwei1995910)
+Jan 29 14:39:01 instance-1 CRON[7416]: (root) CMD (  [ -x /usr/lib/php/sessionclean ] && if [ ! -d /run/systemd/system ]; then /usr/lib/php/sessionclean; fi)
+```
+
+那想要获得脚本的运行日志得咋办呢？
+
+首先，得说明，crontab每条任务调度执行完毕，系统都会将任务输出信息通过电子邮件的形式发送给当前系统用户。没错，是邮件！
+
+但是！！！Ubuntu系统默认没有装邮件服务！！对，没有邮件服务，就是这么坑。此时你使用
+```Bash
+grep CRON /var/log/syslog
+```
+可以看到有这样的输出
+```
+CRON[451]: (CRON) info (No MTA installed, discarding output)
+```
+
+SO,安装邮件管理服务
+```
+sudo apt-get install postfix
+sudo service postfix start
+```
+
+最后，终于能在对应用户的邮件目录看到日志了,邮件目录位于
+```
+/var/mail/<user>
+```
+
+
+
+
+
+
+
