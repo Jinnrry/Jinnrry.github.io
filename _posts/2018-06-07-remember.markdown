@@ -35,3 +35,7 @@ tags:
 ### rufus一个启动盘创建工具
 
 [https://rufus.ie/en_IE.html](https://rufus.ie/en_IE.html)
+
+### 测试请求头
+
+[http://myhttpheader.com/](http://myhttpheader.com/)
