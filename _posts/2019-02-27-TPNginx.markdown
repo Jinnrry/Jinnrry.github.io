@@ -1,0 +1,49 @@
+﻿---
+layout:     post
+title:      "一份ThinkPHP的Nginx配置"
+subtitle:   " TP的Nginx配置"
+date:       2019-02-27 12:00:00
+author:     "木木的木头"
+header-img: "img/19.jpg"
+catalog: true
+tags:
+    - Nginx
+---
+```
+server {
+    listen       80;
+    server_name  localhost;
+
+    location / {
+        root   /usr/share/nginx/html/public;
+        index  index.php index.html index.htm;
+        if (!-e $request_filename) {
+            rewrite  ^(.*)$  /index.php?s=/$1  last;
+            break;
+          }
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html/public;
+    }
+
+    location ~ \.php$ {
+        root           html;
+        fastcgi_pass   phpfpm:9000;
+        fastcgi_index  index.php;
+
+        #下面两句是给fastcgi权限，可以支持 ?s=/module/controller/action的url访问模式
+        fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
+        fastcgi_param  SCRIPT_FILENAME  /usr/share/nginx/html/public/$fastcgi_script_name;
+        #下面两句才能真正支持 index.php/index/index/index的pathinfo模式
+        fastcgi_param  PATH_INFO  $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $document_root$fastcgi_path_info;
+
+        include        fastcgi_params;
+    }
+
+}
+
+
+```
