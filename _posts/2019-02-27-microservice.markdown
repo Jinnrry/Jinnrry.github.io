@@ -385,9 +385,6 @@ RPC-client除了：
 
 Result = Add(Obj1, Obj2);// 得到Result之前处于阻塞状态
 
-![](http://www.xjiangwei.cn/img/articleImg/64011.webp)
-
-
 异步调用的代码片段为：
 
 Add(Obj1, Obj2, callback);// 调用后直接返回，不等结果
@@ -395,9 +392,7 @@ Add(Obj1, Obj2, callback);// 调用后直接返回，不等结果
 处理结果通过回调为：
 
 callback(Result){// 得到处理结果后会调用这个回调函数
-
-         …
-
+    ...
 }
 
 这两类调用，在RPC-client里，实现方式完全不一样。
@@ -406,6 +401,7 @@ callback(Result){// 得到处理结果后会调用这个回调函数
 
 **RPC-client同步调用架构如何？**
 
+![](http://www.xjiangwei.cn/img/articleImg/64011.webp)
 
 所谓同步调用，在得到结果之前，一直处于阻塞状态，会一直占用一个工作线程，上图简单的说明了一下组件、交互、流程步骤：
 
