@@ -43,3 +43,15 @@ tags:
 ### CPU天梯
 
 [http://www.ppnames.com/cpu.asp](http://www.ppnames.com/cpu.asp)
+
+### R15单核
+
+[https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_single_core-7](https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_single_core-7)
+
+### R15多核
+
+[https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8](https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8)
+
+
+
+
