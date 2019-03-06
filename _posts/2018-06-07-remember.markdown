@@ -39,3 +39,7 @@ tags:
 ### 测试请求头
 
 [http://myhttpheader.com/](http://myhttpheader.com/)
+
+### CPU天梯
+
+[http://www.ppnames.com/cpu.asp](http://www.ppnames.com/cpu.asp)
