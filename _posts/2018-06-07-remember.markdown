@@ -52,6 +52,8 @@ tags:
 
 [https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8](https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8)
 
+### elasticsearch 中文文档
 
+[https://www.elastic.co/guide/cn/elasticsearch/guide/current/foreword_id.html](https://www.elastic.co/guide/cn/elasticsearch/guide/current/foreword_id.html)
 
 
