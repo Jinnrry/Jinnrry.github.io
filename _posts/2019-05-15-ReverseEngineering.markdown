@@ -1,4 +1,4 @@
-﻿---
+---
 layout:     post
 title:      "深入探究按键精灵（Android）的实现原理"
 subtitle:   "逆向工程"
