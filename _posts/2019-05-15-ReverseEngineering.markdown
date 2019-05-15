@@ -77,7 +77,80 @@ screencap在java代码中并不能直接像命令行那样拿到图片的二进�
 其中，"media_projection"刚好对于安卓的Context.MEDIA_PROJECTION_SERVICE常量值，而-1刚好对应Activity.RESULT_OK常量值。到此，如果是Android开发者肯定很清楚了，按键精灵的后台截图就是使用了录屏接口。不过为什么没有出现弹窗要求授权我猜测是他使用Root权限，直接修改了安卓的记录文件，相当于你点击了授权弹窗那里的“下次不再提醒”。
 
 
+然后，继续找下去，最终，找到了一个Injector类，读了反编译源码后，发现了下面这段代码
+```
+                switch (message.what) {
+                    default: {}
+                    case 8: {
+                        final Object obj = message.obj;
+                        MqRunnerLite.getInstance();
+                        MqRunner.getInstance();
+                    }
+                    case 7: {
+                        Injector.a((byte[])message.obj);
+                    }
+                    case 6: {
+                        MqRunnerLite.getInstance();
+                    }
+                    case 5: {
+                        MqRunnerLite.getInstance();
+                    }
+                    case 4: {
+                        final Object obj2 = message.obj;
+                        MqRunnerLite.getInstance();
+                    }
+                    case 3: {
+                        Injector.c((com.cyjh.event.b)message.obj);
+                    }
+                    case 2: {
+                        Injector.b((com.cyjh.event.b)message.obj);
+                    }
+                    case 1: {
+                        Injector.a((com.cyjh.event.b)message.obj);
+                    }
+                }
+```
+其中，每一项对应了一个事件，简单分析了下应该是触摸，拖动，按下，抬起....点击去看了具体实现，基本上每一项最终都会走到一个类似这样的函数
+```
+    public static void TouchDown(int a, final float n, final float n2) {
+        try {
+            if (Injector.r == null) {
+                Injector.r = new a[5];
+                for (int i = 0; i < 5; ++i) {
+                    final a a2 = new a((byte)0);
+                    a2.a = true;
+                    a2.b = 0;
+                    a2.c = 0.0f;
+                    a2.d = 0.0f;
+                    Injector.r[i] = a2;
+                }
+            }
+            if (i() >= 5) {
+                return;
+            }
+            a(a, n, n2);
+            final long uptimeMillis = SystemClock.uptimeMillis();
+            a = a(a, 1);
+            final int j = i();
+            j();
+            g().sendPointerSync(MotionEvent.obtain(uptimeMillis, uptimeMillis, a, j, Injector.s, Injector.t, 0, 0, 0.0f, 0.0f, 0, 0, 0, 0));
+        }
+        catch (Throwable t) {
+            t.toString();
+        }
+    }
+```
+而其中g()这个函数的实现是
+```
+    private static Instrumentation g() {
+        if (Injector.b == null) {
+            Injector.b = new Instrumentation();
+        }
+        return Injector.b;
+    }
+```
 
+然后Google这个Instrumentation类，赫然写着，这个类是google底层提供的一个自动化测试类，通常情况下只能测试与自己包名相同的应用，但是！如果具有root权限，或者是系统签名的包，就可以对全部App生效！哈哈！至此，按键精灵全部底层实现都被我扒出来了。哈哈，接下来就是去撸一个自己的挂机脚本了，按键精灵再见。
 
 
 
