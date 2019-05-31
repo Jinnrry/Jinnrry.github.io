@@ -39,3 +39,34 @@ tags:
 ### 测试请求头
 
 [http://myhttpheader.com/](http://myhttpheader.com/)
+
+### CPU天梯
+
+[http://www.ppnames.com/cpu.asp](http://www.ppnames.com/cpu.asp)
+
+### R15单核
+
+[https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_single_core-7](https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_single_core-7)
+
+### R15多核
+
+[https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8](https://www.cpu-monkey.com/en/cpu_benchmark-cinebench_r15_multi_core-8)
+
+### elasticsearch 中文文档
+
+[https://www.elastic.co/guide/cn/elasticsearch/guide/current/foreword_id.html](https://www.elastic.co/guide/cn/elasticsearch/guide/current/foreword_id.html)
+
+### Google Colaboratory
+[https://colab.research.google.com/notebooks/welcome.ipynb#recent=true](https://colab.research.google.com/notebooks/welcome.ipynb#recent=true)
+
+### Maven Search
+
+[https://search.maven.org/search?q=BeatuifulVCF](https://search.maven.org/search?q=BeatuifulVCF)
+
+### APK下载
+
+[https://apkpure.com/](https://apkpure.com/)
+
+### CE修改器官网
+
+[https://www.cheatengine.org/downloads.php](https://www.cheatengine.org/downloads.php)
