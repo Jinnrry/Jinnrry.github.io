@@ -74,3 +74,6 @@ tags:
 ### Android 源码在线查看
 
 [http://androidxref.com/](http://androidxref.com/)
+
+### Ping 测试
+[http://ping.chinaz.com/github.com](http://ping.chinaz.com/github.com)
