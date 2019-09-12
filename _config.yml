@@ -2,16 +2,16 @@
 title: 木木的木头
 SEOTitle: 蒋为的博客 | JiangWei Blog
 header-img: img/home-bg.jpg
-email: xjiangwei@xjiangwei.cn
+email: ok@xjiangwei.cn
 description: "一只喜欢折腾的小程序猿"
 keyword: "蒋为, jiangwei, jw, 木木的木头, 深夜想抱抱我, @jiangwei, 蒋为的博客, JW Blog, 博客, 个人网站, 互联网, 李建秀, 秀秀, 秀秀的男朋友"
-url: "http：//www.xjiangwei.cn"              # your host, for absolute URL
+url: "https://www.xjiangwei.cn"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
 
 # SNS settings
-RSS: false
+RSS: true
 weibo_username:    5303579417
 #zhihu_username:     
 github_username:    jiangwei1995910
