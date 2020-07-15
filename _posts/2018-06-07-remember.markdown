@@ -40,6 +40,12 @@ tags:
 
 [http://myhttpheader.com/](http://myhttpheader.com/)
 
+### 测试请求
+
+[http://httpbin.org/anything](http://httpbin.org/anything)
+
+
+
 ### CPU天梯
 
 [http://www.ppnames.com/cpu.asp](http://www.ppnames.com/cpu.asp)
