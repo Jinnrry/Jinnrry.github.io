@@ -66,23 +66,23 @@ sh d2j-dex2jar.sh classes5.dex
 
 反编译后，会生成pinduoduo文件夹
 
-![pinduoduo_res](//img/articleImg/pinduoduo_res.png)
+![pinduoduo_res](/img/articleImg/pinduoduo_res.png)
 
 #### 构建Android Studio项目
 
 进入 Android Studio 后，通过 File -> Open… 选择上面生成的源码目录，并切换到 Project 视图，右键工程主目录，选择 Mark Directory As -> Sources Root
 
-![src_path](//img/articleImg/res_path.png)
+![src_path](/img/articleImg/res_path.png)
 
 设置完成后Android Stuido会开始索引文件，索引完成后就可以开始调试了。
 
 #### 设置断点和调试
 
-![bk_point](//img/articleImg/bk_point.png)
+![bk_point](/img/articleImg/bk_point.png)
 
 设置完断点以后在手机上启动拼多多应用，然后点击Android Studio右上角的Attach Debug按钮，选择拼多多应用，当程序执行到断点位置时程序即可停下。后续的调试方法就和平时普通开发中的调试过程一致了
 
-![attach.png](//img/articleImg/attach.png)
+![attach.png](/img/articleImg/attach.png)
 
 
 
