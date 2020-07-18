@@ -72,7 +72,7 @@ sh d2j-dex2jar.sh classes5.dex
 
 进入 Android Studio 后，通过 File -> Open… 选择上面生成的源码目录，并切换到 Project 视图，右键工程主目录，选择 Mark Directory As -> Sources Root
 
-![src_path](/img/articleImg/res_path.png)
+![src_path](/img/articleImg/src_path.png)
 
 设置完成后Android Stuido会开始索引文件，索引完成后就可以开始调试了。
 
