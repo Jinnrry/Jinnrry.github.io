@@ -29,7 +29,7 @@ Android app 反编译与无源码断点调试
 
 > 我这里是反编译拼多多，apk文件为pinduoduo.apk，拼多多app的包名为com.xunmeng.pinduoduo
 
-1、将apk文件负责一个副本，命名为pinduoduo2.apk，然后将这个文件直接改名为pinduoduo2.zip，修改文件后缀以后就可以使用winrara等解压工具解压了，将压缩包解压后取出其中的class[x].dex文件，拼多多安装包里面一共有5个
+1、将apk文件复制一个副本，命名为pinduoduo2.apk，然后将这个文件直接改名为pinduoduo2.zip，修改文件后缀以后就可以使用winrara等解压工具解压了，将压缩包解压后取出其中的class[x].dex文件，拼多多安装包里面一共有5个
 
 2、使用dex2jar将dex文件反编译为jar包。执行命令为
 
