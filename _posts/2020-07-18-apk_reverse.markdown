@@ -1,4 +1,16 @@
+---
+layout:     post
+title:      "Android Apk反编译与无源码调试"
+subtitle:   " 逆向工程"
+date:       2020-07-18 12:00:00
+author:     "Jinnrry"
+header-img: "img/17.jpg"
+catalog: true
+tags:
+    - Android
+---
 Android app 反编译与无源码断点调试
+
 
 ### 前置技能
 
