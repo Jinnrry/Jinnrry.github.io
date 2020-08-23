@@ -9,7 +9,7 @@ catalog: true
 tags:
     - Android
 ---
->[项目地址(已经闭源)](https://github.com/jiangwei1995910/Reboot)
+>[项目地址](https://github.com/Jinnrry/RobotHelper)
 
 ## 由来
 之前想给手游写一套很牛逼的自动化控制脚本，能够实现自动领任务，自动寻路，找怪，打怪。。。以前一直用按键精灵写简单的游戏脚本，但是按键精灵底层不够稳定，经常死掉无响应，而且按键精灵网络通信基本等于残废。于是我决定自己从轮子开始开发。
