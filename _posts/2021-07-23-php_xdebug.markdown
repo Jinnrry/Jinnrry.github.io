@@ -4,7 +4,7 @@ title:      "PHP远程断点配置"
 subtitle:   " xdebug配置"
 date:       2021-07-23 12:00:00
 author:     "Jinnrry"
-header-img: "img/26.jpg"
+header-img: "img/27.jpg"
 catalog: true
 tags:
     - PHP
@@ -32,6 +32,6 @@ xdebug.remote_autostart=1  # 全部请求都会开启断点调试
 
 ### 三、PHPSTORM配置
 
-1、在设置中找到PHP->Debug选项卡，然后将Xdebug里面的debug port改成9001
+1、在设置中找到PHP->Debug选项卡，然后将Xdebug里面的debug port改成9001,然后点击start listenint，开启监听
 
 2、PHP->Servers选项卡中，新建一个你需要调试的server，配置服务端代码和本地代码的目录映射
