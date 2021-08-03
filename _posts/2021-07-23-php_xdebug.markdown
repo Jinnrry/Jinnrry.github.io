@@ -34,7 +34,10 @@ xdebug.remote_autostart=1  # 全部请求都会开启断点调试
 
 1、在设置中找到PHP->Debug选项卡，然后将Xdebug里面的debug port改成9001,然后点击start listenint，开启监听
 
-2、PHP->Servers选项卡中，新建一个你需要调试的server，配置服务端代码和本地代码的目录映射
+2、PHP->Servers选项卡中，新建一个你需要调试的server，配置服务端代码和本地代码的目录映射(这一步也可以不手动新建，直接请求接口，phpstorm会弹出一个提示，选择本地文件映射后会自动新建)
+
+Tips:
+    使用Nginx作为webserver(其他webserver不清楚)的时候，Nginx一定要设置server_name，不然phpstorm每次重启都需要重新设置映射
 
 
 ### 四、修改php、nginx超时时间
