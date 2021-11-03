@@ -107,3 +107,23 @@ tags:
 ### android设置系统证书
 
 [https://testerhome.com/topics/21956](https://testerhome.com/topics/21956)
+
+
+### IP测试
+
+```
+# 查询本机外网IPv4地址
+curl 4.ipw.cn
+
+# 查询本机外网IPv6地址
+curl 6.ipw.cn
+
+# 测试网络是IPv4还是IPv6访问优先(访问IPv4/IPv6双栈站点)
+curl test.ipw.cn
+
+```
+
+
+
+
+
