@@ -1,0 +1,177 @@
+﻿---
+layout:     post
+title:      "如何正确写出反人类的Es DSL语句"
+subtitle:   "ElasticSearch查询语句"
+date:       2021-11-23 12:00:00
+author:     "Jinnrry"
+header-img: "img/8.jpg"
+catalog: true
+tags:
+    - ElasticSearch
+---
+> 一个查询语句写了三天，掉了无数头发，依然没写出来，试问dsl还能再反人类点吗
+
+由于es海量存储量的特性，现在业务基本上都是把es当成db来使用，因此写五花八门的查询语句是经常的事。平时写个一般的查询，比如` xxx=123 `这种条件都不是什么问题，但是当遇到` a=123 and b=345 and (c=456 or (d =789  and e != 987  )) ` 这种条件的时候，那Json嵌套，简直要了人的命。如果这个时候，恰巧还需要做个嵌套聚合，嵌套聚合后再来个桶过滤，直接原地去世。
+
+最近查Es文档的时候无意间发现新版本ES新支持了SQL查询API，不过这没什么卵用，公司都ES还没到这么新的版本，根本用不了SQL。
+不过在SQL API里面有一个接口`/_sql/translate`，可以把SQL转成DSL语句。这简直是写DSL的神器，毕竟SQL谁不会写，转换后的DSL再拿到老版本ES上面去运行就行了，完美。
+
+由于这个API只在新版本ES里面支持，因此需要本地搭一个最新的Es服务，我使用Docker搭建
+
+```
+docker pull elasticsearch  # 拉取es镜像，尽量用最新的，SQL api在最近版本一直在迭代，老一点的版本可能有些SQL语法不支持
+
+docker images | grep elasticsearch # 查看es镜像版本，目前(2021-11-23)最新的是7.14.2
+
+docker run -d --name elasticsearch  -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.14.2   # 指定镜像版本
+
+```
+
+
+搭建完本地es后使用`/_sql/translate` API翻译SQL
+
+```
+GET  http://127.0.0.1:9200/_sql/translate
+{
+  "query": "SELECT avg(price) as ap  FROM demo where price<100   group by color,size having ap > 10"
+}
+
+```
+
+ES返回：
+
+```
+{
+    "size": 0,
+    "query": {
+        "range": {
+            "price": {
+                "from": null,
+                "to": 100,
+                "include_lower": false,
+                "include_upper": false,
+                "boost": 1.0
+            }
+        }
+    },
+    "_source": false,
+    "aggregations": {
+        "groupby": {
+            "composite": {
+                "size": 1000,
+                "sources": [
+                    {
+                        "df2bf252": {
+                            "terms": {
+                                "field": "color",
+                                "missing_bucket": true,
+                                "order": "asc"
+                            }
+                        }
+                    },
+                    {
+                        "afe8f474": {
+                            "terms": {
+                                "field": "size",
+                                "missing_bucket": true,
+                                "order": "asc"
+                            }
+                        }
+                    }
+                ]
+            },
+            "aggregations": {
+                "61543600": {
+                    "avg": {
+                        "field": "price"
+                    }
+                },
+                "having.61543600": {
+                    "bucket_selector": {
+                        "buckets_path": {
+                            "a0": "61543600"
+                        },
+                        "script": {
+                            "source": "InternalQlScriptUtils.nullSafeFilter(InternalQlScriptUtils.gt(params.a0,params.v0))",
+                            "lang": "painless",
+                            "params": {
+                                "v0": 10
+                            }
+                        },
+                        "gap_policy": "skip"
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+
+
+这段DSL在新版本上能够直接运行，但是老版本会报错，主要问题在script那里，按照老版本语法稍作修改，改成
+
+```
+          "bucket_selector": {
+            "buckets_path": {
+              "avgPrice": "avg_price"
+            },
+            "script": "params.avgPrice > 10"
+          }
+```
+
+最终完美运行。
+
+TIPs:
+
+自动生成的语句里面有很多字段是乱七八糟的，影响美观，可以稍作整理，比如我最终的整理的结果：
+
+```
+{
+  "size": 0,
+  "_source": false,
+  "aggregations": {
+    "groupby": {
+      "composite": {
+        "size": 1000,
+        "sources": [
+          {
+            "color": {
+              "terms": {
+                "field": "color",
+                "missing_bucket": true,
+                "order": "asc"
+              }
+            }
+          },
+          {
+            "size": {
+              "terms": {
+                "field": "size",
+                "missing_bucket": true,
+                "order": "asc"
+              }
+            }
+          }
+        ]
+      },
+      "aggregations": {
+        "avg_price": {
+          "avg": {
+            "field": "price"
+          }
+        },
+        "price_bucket_filter": {
+          "bucket_selector": {
+            "buckets_path": {
+              "avgPrice": "avg_price"
+            },
+            "script": "params.avgPrice > 10"
+          }
+        }
+      }
+    }
+  }
+}
+```
