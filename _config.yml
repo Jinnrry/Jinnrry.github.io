@@ -14,7 +14,7 @@ baseurl: ""                             # for example, '/blog' if your blog host
 RSS: true
 weibo_username:    5303579417
 #zhihu_username:     
-github_username:    jiangwei1995910
+github_username:    Jinnrry
 #twitter_username:  huxpro
 facebook_username:  100012133422315
 # linkedin_username:  firstname-lastname-idxxxx
@@ -93,9 +93,5 @@ friends: [
     {
         title: "My Github",
         href: "https://github.com/jiangwei1995910/"
-    },
-    {
-        title: "arloor",
-        href: "http://arloor.com/"
     }
 ]
