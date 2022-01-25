@@ -1,0 +1,79 @@
+﻿---
+layout:     post
+title:      "部署GZIP炸弹反网页爬虫"
+subtitle:   " GZIP炸弹"
+date:       2022-01-25 12:00:00
+author:     "Jinnrry"
+header-img: "img/26.jpg"
+catalog: true
+tags:
+    - Nginx
+---
+## 背景
+
+最近网站访问量突然暴涨，QPS达到300+，每小时请求量达到了100W+。我还以为我突然出名了，结果掏出Nginx日志一看，100万请求中有100万都是404页面，访问路径全部都是
+
+```
+/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php
+/wp/install.php
+/thinkphp/exec.php
+```
+类似的这种地址。很明显有脚本小子在觊觎我的服务器，想尝试用这种方式黑进来。
+
+虽然这种破手段不可能黑进我服务器，但是这么高的请求量，也挺恶心人的，大量的404页面，导致很多日志文件直接把我服务器磁盘打满了。因此决定我也得恶心一下他们。
+
+## GZIP炸弹
+
+在HTTP请求传输过程中，为了节约网络带宽，因此一般会使用GZIP对传输内容进行压缩。因此基于这一点，我们可以生成一个压缩比例超级超级高的GZIP文件，然后把这个文件返回给他，从而直接撑爆对方服务。
+
+## 生成GZIP炸弹
+
+```
+dd if=/dev/zero bs=1M count=1024 | gzip > bomb.gzip
+```
+在linux下使用这个命令可以生成一个1M大小的文件，这个文件解压将会达到1G大小。看网上其他文章，这个文件还能继续压缩，从而使炸弹威力更大，不过我懒得研究了，就这样吧，1G也不小了
+
+## 部署炸弹
+
+直接在Nginx中添加规则
+
+```
+        # 通过正则匹配脚本小子经常扫描的一些路径，将这些路径直接rewrite到炸弹路径去
+        location ~ (wlwmanifest|sitemap|xmlrpc|config\.php|wp-login|sign_in|execute-solution|wp-admin|eval-stdin\.php) {
+           rewrite ^/.* /bomb.gzip;
+        }
+
+        # 炸弹页面
+        location = /bomb.gzip {
+          root /;
+          access_log off;
+          add_header Content-Encoding gzip;
+          gzip off;
+          default_type 'text/html';
+        }
+```
+
+## 检验炸弹威力
+
+我使用Golang写了一个模拟爬虫测试，代码如下
+
+```
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+	"time"
+)
+
+func main() {
+	resp, _ := http.Get("https://jinnrry.com/wlwmanifest")
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(len(body))  // 输出1073741824
+	time.Sleep(10 * time.Second)
+}
+
+```
+程序运行后，打开任务管理器，可以看到这个程序内存占用达到了2G，虽然我也不知道为什么1G的炸弹威力会翻倍，不过反正炸弹生效了
+
