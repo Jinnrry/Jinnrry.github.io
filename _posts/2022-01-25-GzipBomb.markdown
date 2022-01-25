@@ -4,7 +4,7 @@ title:      "部署GZIP炸弹反网页爬虫"
 subtitle:   " GZIP炸弹"
 date:       2022-01-25 12:00:00
 author:     "Jinnrry"
-header-img: "img/26.jpg"
+header-img: "img/23.jpg"
 catalog: true
 tags:
     - Nginx
