@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      "OpenWRT定制化编译过程"
-subtitle:   " OpenWRT"
+subtitle:   "OpenWRT"
 date:       2022-02-15 12:00:00
 author:     "Jinnrry"
 header-img: "img/33.jpg"
