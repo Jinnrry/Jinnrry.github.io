@@ -115,11 +115,12 @@ Kernel modules
 LuCI
     Collections
         -*- luci
-        <*> luci-ssl
     # 管理界面中文支持
     Modules
         Translations
             <*> Chinese (zh_CN)
+	# 这个模块一定得启用，不然很多Luci应用会报错`module 'luci.cbi' not found`
+	<*> luci-compat
     Themes
         *- luci-theme-bootstrap
 		Applications
