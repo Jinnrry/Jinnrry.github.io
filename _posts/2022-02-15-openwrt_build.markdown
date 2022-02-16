@@ -129,6 +129,23 @@ LuCI
 ```
 
 
+### 源码定制
+
+`package/base-files/files/` 由于这个文件夹中的内容将被原封不动的拷贝到编译完成的镜像中，因此可以修改这个文件夹中的配置文件实现对镜像的一些定制
+
+1、修改默认密码
+
+编辑`package/base-files/files/etc/shadow`文件即可，该文件完全遵循Linux标准，可以使用`openssl passwd -1 xxxxxx`生成符合格式的加密后的密码串
+
+2、修改Lan口IP
+
+编辑`package/base-files/files/bin/config_generate`，搜索`192.168.1.1`，替换即可
+
+3、修改默认时区
+
+编辑`package/base-files/files/bin/config_generate`,搜索`set system.@system[-1].timezone`，将值修改为`CST-8`，同时需要在这一行下面加上时区名`set [email protected][-1].zonename='Asia/Shanghai'`
+
+
 ## 7、编译
 
 `make -j 9 V=s `
