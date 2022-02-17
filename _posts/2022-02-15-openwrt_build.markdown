@@ -110,6 +110,11 @@ Kernel modules
     Native Language Support
         <*> kmod-nls-iso8859-1
         <*> kmod-nls-utf8
+    
+    # 开启iptables的nat支持，不然lan口流量将不会走代理
+    Netfilter Extensions
+    	<*> kmod-ipt-nat
+	<*> kmod-ipt-nat-extra
 
 # 插件配置
 LuCI
