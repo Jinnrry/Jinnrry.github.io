@@ -4,8 +4,8 @@ SEOTitle: 蒋为的博客 | JiangWei Blog
 header-img: img/home-bg.jpg
 email: ok@xjiangwei.cn
 description: "一只喜欢折腾的小程序猿"
-keyword: "蒋为, jiangwei, jw, 木木的木头, 深夜想抱抱我, @jiangwei, 蒋为的博客, JW Blog, 博客, 个人网站, 互联网, 李建秀, 秀秀, 秀秀的男朋友"
-url: "https://www.xjiangwei.cn"              # your host, for absolute URL
+keyword: "蒋为, jiangwei, jw, 木木的木头, 神夜想抱抱我, @jiangwei, 蒋为的博客, JW Blog, 博客, 个人网站, Jinnrry"
+url: "https://www.jinnrry.com"              # your host, for absolute URL
 baseurl: ""                             # for example, '/blog' if your blog hosted on 'host/blog'
 
 
@@ -50,13 +50,6 @@ kramdown:
 # Disqus settings
 #disqus_username: _your_disqus_short_name_
 
-# Duoshuo settings
-# duoshuo_username: xjiangwei
-# disqus_username: jiangwei1995910
-# Share component is depend on Comment so we can NOT use share only.
-duoshuo_share: false                     # set to false if you want to use Comment without Sharing
-
-
 
 
 # Analytics settings
@@ -92,6 +85,6 @@ service-worker: false
 friends: [
     {
         title: "My Github",
-        href: "https://github.com/jiangwei1995910/"
+        href: "https://github.com/Jinnrry/"
     }
 ]
